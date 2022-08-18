@@ -1,0 +1,18 @@
+version: '3'
+services:
+    mysql:
+        image: mysql:8.0.30
+        container_name: mysql_local
+#        環境編数は使う前に宣言した方がいいかも
+        env_file:
+            - .env
+        environment:
+            MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+            TZ: 'Asia/Tokyo'
+        ports:
+            - 3306:3306
+        volumes:
+            - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+            - ../db/initdb.d/:/docker-entrypoint-initdb.d/
+#            永続化する際には、以下のように書くといいかも。
+#            - "${MYSQL_DATA_PATH}:/var/lib/mysql"
